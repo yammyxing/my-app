@@ -9,10 +9,14 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "deprecated-react-native-prop-types": "^2.3.0",
     "expo": "~46.0.13",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
-    "react-native": "0.69.6"
+    "react-native": "0.69.6",
+    "react-native-flash-message": "^0.3.1",
+    "react-native-scrollable-tab-view": "^1.0.0",
+    "react-native-svg": "12.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
