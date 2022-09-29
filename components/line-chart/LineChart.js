@@ -50,7 +50,7 @@ class LineChart extends AbstractChart {
       width,
       height,
       paddingTop,
-      paddingRight,
+      paddingLeft,
       onDataPointClick,
     }) => {
       const output = [];
@@ -70,7 +70,7 @@ class LineChart extends AbstractChart {
           if (hidePointsAtIndex.includes(i)) {
             return;
           }
-          const cx = paddingRight + (i * (width - paddingRight)) / xMax;
+          const cx = paddingLeft + (i * (width - paddingLeft)) / xMax;
           const cy =
             ((baseHeight - this.calcHeight(x, datas, height)) / 4) * 3 +
             paddingTop;
@@ -120,7 +120,7 @@ class LineChart extends AbstractChart {
       width,
       height,
       paddingTop,
-      paddingRight,
+      paddingLeft,
       scrollableDotHorizontalOffset,
       scrollableDotFill,
       scrollableDotStrokeColor,
@@ -219,8 +219,8 @@ class LineChart extends AbstractChart {
             paddingTop;
           yValues.push(yval);
           const xval =
-            paddingRight +
-            ((dataset.data.length - index - 1) * (width - paddingRight)) /
+            paddingLeft +
+            ((dataset.data.length - index - 1) * (width - paddingLeft)) /
               dataset.data.length;
           xValues.push(xval);
           yValuesLabel.push(
@@ -291,7 +291,7 @@ class LineChart extends AbstractChart {
     this.renderShadow = ({
       width,
       height,
-      paddingRight,
+      paddingLeft,
       paddingTop,
       data,
       useColorFromDataset,
@@ -300,7 +300,7 @@ class LineChart extends AbstractChart {
         return this.renderBezierShadow({
           width,
           height,
-          paddingRight,
+          paddingLeft,
           paddingTop,
           data,
           useColorFromDataset,
@@ -316,8 +316,8 @@ class LineChart extends AbstractChart {
               dataset.data
                 .map((d, i) => {
                   const x =
-                    paddingRight +
-                    (i * (width - paddingRight)) / dataset.data.length;
+                    paddingLeft +
+                    (i * (width - paddingLeft)) / dataset.data.length;
                   const y =
                     ((baseHeight - this.calcHeight(d, datas, height)) / 4) * 3 +
                     paddingTop;
@@ -325,10 +325,10 @@ class LineChart extends AbstractChart {
                 })
                 .join(" ") +
               ` ${
-                paddingRight +
-                ((width - paddingRight) / dataset.data.length) *
+                paddingLeft +
+                ((width - paddingLeft) / dataset.data.length) *
                   (dataset.data.length - 1)
-              },${(height / 4) * 3 + paddingTop} ${paddingRight},${
+              },${(height / 4) * 3 + paddingTop} ${paddingLeft},${
                 (height / 4) * 3 + paddingTop
               }`
             }
@@ -343,7 +343,7 @@ class LineChart extends AbstractChart {
     this.renderLine = ({
       width,
       height,
-      paddingRight,
+      paddingLeft,
       paddingTop,
       data,
       linejoinType,
@@ -353,7 +353,7 @@ class LineChart extends AbstractChart {
           data,
           width,
           height,
-          paddingRight,
+          paddingLeft,
           paddingTop,
         });
       }
@@ -365,7 +365,7 @@ class LineChart extends AbstractChart {
       data.forEach((dataset, index) => {
         const points = dataset.data.map((d, i) => {
           if (d === null) return lastPoint;
-          const x = (i * (width - paddingRight)) / xMax + paddingRight;
+          const x = (i * (width - paddingLeft)) / xMax + paddingLeft;
           const y =
             ((baseHeight - this.calcHeight(d, datas, height)) / 4) * 3 +
             paddingTop;
@@ -394,7 +394,7 @@ class LineChart extends AbstractChart {
     };
     this.getBezierLinePoints = (
       dataset,
-      { width, height, paddingRight, paddingTop, data }
+      { width, height, paddingLeft, paddingTop, data }
     ) => {
       if (dataset.data.length === 0) {
         return "M0,0";
@@ -402,7 +402,7 @@ class LineChart extends AbstractChart {
       const datas = this.getDatas(data);
       const xMax = this.getXMaxValues(data);
       const x = (i) =>
-        Math.floor(paddingRight + (i * (width - paddingRight)) / xMax);
+        Math.floor(paddingLeft + (i * (width - paddingLeft)) / xMax);
       const baseHeight = this.calcBaseHeight(datas, height);
       const y = (i) => {
         const yHeight = this.calcHeight(dataset.data[i], datas, height);
@@ -427,14 +427,14 @@ class LineChart extends AbstractChart {
       data,
       width,
       height,
-      paddingRight,
+      paddingLeft,
       paddingTop,
     }) => {
       return data.map((dataset, index) => {
         const result = this.getBezierLinePoints(dataset, {
           width,
           height,
-          paddingRight,
+          paddingLeft,
           paddingTop,
           data,
         });
@@ -454,7 +454,7 @@ class LineChart extends AbstractChart {
     this.renderBezierShadow = ({
       width,
       height,
-      paddingRight,
+      paddingLeft,
       paddingTop,
       data,
       useColorFromDataset,
@@ -465,14 +465,14 @@ class LineChart extends AbstractChart {
           this.getBezierLinePoints(dataset, {
             width,
             height,
-            paddingRight,
+            paddingLeft,
             paddingTop,
             data,
           }) +
           ` L${
-            paddingRight +
-            ((width - paddingRight) / xMax) * (dataset.data.length - 1)
-          },${(height / 4) * 3 + paddingTop} L${paddingRight},${
+            paddingLeft +
+            ((width - paddingLeft) / xMax) * (dataset.data.length - 1)
+          },${(height / 4) * 3 + paddingTop} L${paddingLeft},${
             (height / 4) * 3 + paddingTop
           } Z`;
         return (
@@ -533,7 +533,8 @@ class LineChart extends AbstractChart {
     const {
       borderRadius = 0,
       paddingTop = 16,
-      paddingRight = 64,
+      paddingLeft = 20,
+      paddingRight = 60,
       margin = 0,
       marginRight = 0,
       paddingBottom = 0,
@@ -579,13 +580,15 @@ class LineChart extends AbstractChart {
                       ...config,
                       count: count,
                       paddingTop,
-                      paddingRight,
+                      paddingLeft,
+                      paddingRight
                     })
                   : withOuterLines
                   ? this.renderHorizontalLine({
                       ...config,
                       paddingTop,
-                      paddingRight,
+                      paddingLeft,
+                      paddingRight
                     })
                   : null)}
             </G>
@@ -596,7 +599,7 @@ class LineChart extends AbstractChart {
                   count: count,
                   data: datas,
                   paddingTop: paddingTop,
-                  paddingRight: paddingRight,
+                  paddingLeft: paddingLeft,
                   formatYLabel,
                   decimalPlaces: chartConfig.decimalPlaces,
                 })}
@@ -608,13 +611,13 @@ class LineChart extends AbstractChart {
                       ...config,
                       data: data.datasets[0].data,
                       paddingTop: paddingTop,
-                      paddingRight: paddingRight,
+                      paddingLeft: paddingLeft,
                     })
                   : withOuterLines
                   ? this.renderVerticalLine({
                       ...config,
                       paddingTop: paddingTop,
-                      paddingRight: paddingRight,
+                      paddingLeft: paddingLeft,
                     })
                   : null)}
             </G>
@@ -624,7 +627,7 @@ class LineChart extends AbstractChart {
                   ...config,
                   labels,
                   paddingTop: paddingTop,
-                  paddingRight: paddingRight,
+                  paddingLeft: paddingLeft,
                   formatXLabel,
                 })}
             </G>
@@ -632,7 +635,7 @@ class LineChart extends AbstractChart {
               {this.renderLine({
                 ...config,
                 ...chartConfig,
-                paddingRight: paddingRight,
+                paddingLeft: paddingLeft,
                 paddingTop: paddingTop,
                 data: data.datasets,
               })}
@@ -642,7 +645,7 @@ class LineChart extends AbstractChart {
                 this.renderShadow({
                   ...config,
                   data: data.datasets,
-                  paddingRight: paddingRight,
+                  paddingLeft: paddingLeft,
                   paddingTop: paddingTop,
                   useColorFromDataset: chartConfig.useShadowColorFromDataset,
                 })}
@@ -653,7 +656,7 @@ class LineChart extends AbstractChart {
                   ...config,
                   data: data.datasets,
                   paddingTop: paddingTop,
-                  paddingRight: paddingRight,
+                  paddingLeft: paddingLeft,
                   onDataPointClick,
                 })}
             </G>
@@ -664,7 +667,7 @@ class LineChart extends AbstractChart {
                   ...chartConfig,
                   data: data.datasets,
                   paddingTop: paddingTop,
-                  paddingRight: paddingRight,
+                  paddingLeft: paddingLeft,
                   onDataPointClick,
                   scrollableDotHorizontalOffset,
                 })}
@@ -675,7 +678,7 @@ class LineChart extends AbstractChart {
                   ...config,
                   data: data.datasets,
                   paddingTop,
-                  paddingRight,
+                  paddingLeft,
                 })}
             </G>
           </G>

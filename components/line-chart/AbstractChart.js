@@ -52,6 +52,7 @@ class AbstractChart extends Component {
         width,
         height,
         paddingTop,
+        paddingLeft,
         paddingRight,
         verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE,
       } = config;
@@ -61,9 +62,9 @@ class AbstractChart extends Component {
         return (
           <Line
             key={Math.random()}
-            x1={paddingRight}
+            x1={paddingLeft}
             y1={y}
-            x2={width}
+            x2={width - paddingRight}
             y2={y}
             {...this.getPropsForBackgroundLines()}
           />
@@ -75,15 +76,16 @@ class AbstractChart extends Component {
         width,
         height,
         paddingTop,
+        paddingLeft,
         paddingRight,
         verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE,
       } = config;
       return (
         <Line
           key={Math.random()}
-          x1={paddingRight}
+          x1={paddingLeft}
           y1={height * verticalLabelsHeightPercentage + paddingTop}
-          x2={width}
+          x2={width - paddingRight}
           y2={height * verticalLabelsHeightPercentage + paddingTop}
           {...this.getPropsForBackgroundLines()}
         />
@@ -94,8 +96,9 @@ class AbstractChart extends Component {
         count,
         data,
         height,
+        width,
         paddingTop,
-        paddingRight,
+        paddingLeft,
         horizontalLabelRotation = 0,
         decimalPlaces = 2,
         formatYLabel = (yLabel) => yLabel,
@@ -121,7 +124,7 @@ class AbstractChart extends Component {
           )}${yAxisSuffix}`;
         }
         const basePosition = height * verticalLabelsHeightPercentage;
-        const x = paddingRight - yLabelsOffset;
+        const x = width - yLabelsOffset;
         const y =
           count === 1 && this.props.fromZero
             ? paddingTop + 4
@@ -148,7 +151,7 @@ class AbstractChart extends Component {
       labels = [],
       width,
       height,
-      paddingRight,
+      paddingLeft,
       paddingTop,
       horizontalOffset = 0,
       stackedBar = false,
@@ -171,8 +174,8 @@ class AbstractChart extends Component {
           return null;
         }
         const x =
-          (((width - paddingRight) / labels.length) * i +
-            paddingRight +
+          (((width - paddingLeft) / labels.length) * i +
+            paddingLeft +
             horizontalOffset) *
           fac;
         const y =
@@ -201,7 +204,7 @@ class AbstractChart extends Component {
       width,
       height,
       paddingTop,
-      paddingRight,
+      paddingLeft,
       verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE,
     }) => {
       const { yAxisInterval = 1 } = this.props;
@@ -211,13 +214,13 @@ class AbstractChart extends Component {
             <Line
               key={Math.random()}
               x1={Math.floor(
-                ((width - paddingRight) / (data.length / yAxisInterval)) * i +
-                  paddingRight
+                ((width - paddingLeft) / (data.length / yAxisInterval)) * i +
+                  paddingLeft
               )}
               y1={0}
               x2={Math.floor(
-                ((width - paddingRight) / (data.length / yAxisInterval)) * i +
-                  paddingRight
+                ((width - paddingLeft) / (data.length / yAxisInterval)) * i +
+                  paddingLeft
               )}
               y2={height * verticalLabelsHeightPercentage + paddingTop}
               {...this.getPropsForBackgroundLines()}
@@ -229,14 +232,14 @@ class AbstractChart extends Component {
     this.renderVerticalLine = ({
       height,
       paddingTop,
-      paddingRight,
+      paddingLeft,
       verticalLabelsHeightPercentage = DEFAULT_X_LABELS_HEIGHT_PERCENTAGE,
     }) => (
       <Line
         key={Math.random()}
-        x1={Math.floor(paddingRight)}
+        x1={Math.floor(paddingLeft)}
         y1={0}
-        x2={Math.floor(paddingRight)}
+        x2={Math.floor(paddingLeft)}
         y2={height * verticalLabelsHeightPercentage + paddingTop}
         {...this.getPropsForBackgroundLines()}
       />
